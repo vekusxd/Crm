@@ -11,8 +11,6 @@ AddGuestDialog::AddGuestDialog(QWidget *parent)
 
     QVBoxLayout *mainlayout = new QVBoxLayout(this);
 
-
-
     QFormLayout *layout = new QFormLayout;
 
     QLabel *addLabel = new QLabel("Добавить гостя");
@@ -22,10 +20,13 @@ AddGuestDialog::AddGuestDialog(QWidget *parent)
     mainlayout->addWidget(addLabel);
 
     haveCardBox = new QCheckBox;
+    haveCardBox->setCheckState(Qt::Unchecked);
+
     layout->addRow("Карта лояльности:", haveCardBox);
 
     cardIdEdit = new QLineEdit;
     layout->addRow("ID-карты клиента:", cardIdEdit);
+    cardIdEdit->setReadOnly(true);
 
     tableEdit = new QLineEdit;
     layout->addRow("Номер стола:", tableEdit);
@@ -42,4 +43,16 @@ AddGuestDialog::AddGuestDialog(QWidget *parent)
     mainlayout->addWidget(addButton);
 
     connect(addButton, &QPushButton::clicked, this, &AddGuestDialog::accepted);
+    connect(haveCardBox, &QCheckBox::stateChanged, this, &AddGuestDialog::onCheckChanged);
+}
+
+void AddGuestDialog::onCheckChanged(int state)
+{
+    if(state == Qt::Checked){
+        cardIdEdit->setReadOnly(false);
+    }
+    else if(state == Qt::Unchecked){
+        cardIdEdit->clear();
+        cardIdEdit->setReadOnly(true);
+    }
 }

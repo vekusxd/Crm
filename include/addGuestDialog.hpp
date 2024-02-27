@@ -19,4 +19,7 @@ private:
     QLineEdit *tableEdit;
     QSpinBox *countPersonBox;
     QPushButton *addButton;
+
+public slots:
+    void onCheckChanged(int state);
 };
